@@ -56,16 +56,19 @@ class MatchModel extends Model
      */
     public function scopeFromCountry(Builder $query, int $countryId, bool $throughPlayers = false): Builder
     {
-        $query = $query
-            ->whereRelation('leftOpponent', 'country_id', $countryId)
-            ->orWhereRelation('rightOpponent', 'country_id', $countryId);
-
-        if (!$throughPlayers) {
-            return $query;
-        }
-
         return $query
-            ->orWhereHasMorph('leftOpponent', [Team::class], fn (Builder $query) => $query->whereRelation('players', 'country_id', $countryId))
-            ->orWhereHasMorph('rightOpponent', [Team::class], fn (Builder $query) => $query->whereRelation('players', 'country_id', $countryId));
+            ->where(function ($query) use ($countryId, $throughPlayers) {
+                $query
+                    ->whereRelation('leftOpponent', 'country_id', $countryId)
+                    ->orWhereRelation('rightOpponent', 'country_id', $countryId);
+
+                if (!$throughPlayers) {
+                    return $query;
+                }
+
+                return $query
+                    ->orWhereHasMorph('leftOpponent', [Team::class], fn(Builder $query) => $query->whereRelation('players', 'country_id', $countryId))
+                    ->orWhereHasMorph('rightOpponent', [Team::class], fn(Builder $query) => $query->whereRelation('players', 'country_id', $countryId));
+            });
     }
 }
