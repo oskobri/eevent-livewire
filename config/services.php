@@ -31,4 +31,15 @@ return [
         ],
     ],
 
+    'start_gg' => [
+        'key' => env('START_GG_KEY'),
+        'host_api' => 'https://api.start.gg/gql/alpha',
+        'host_website' => 'https://www.start.gg/'
+    ],
+
+    'liquipedia' => [
+        'host_api' => 'https://liquipedia.net',
+        'host_website' => 'https://liquipedia.net',
+    ]
+
 ];

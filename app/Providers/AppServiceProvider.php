@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Player;
+use App\Models\Team;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +22,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Relation::morphMap([
+            'team' => Team::class,
+            'player' => Player::class
+        ]);
     }
 }
