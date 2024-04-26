@@ -5,6 +5,6 @@ name('home');
 ?>
 <x-app-layout>
     <div class="py-12">
-        <livewire:video-games.video-games-list/>
+        <livewire:components.events-list/>
     </div>
 </x-app-layout>

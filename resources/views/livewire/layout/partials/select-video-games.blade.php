@@ -6,10 +6,14 @@ state('selectedVideoGame');
 mount(function () {
     $this->selectedVideoGame = request()->videoGame?->id;
 });
+
 ?>
 
-<li class="flex py-5 text-white cursor-pointer select-none" x-data="{isOpen: false}">
-    <details x-on:click="isOpen = !isOpen">
+<li class="flex py-5 text-white cursor-pointer select-none hover:bg-gray-700"
+    x-data="{isOpen: false}"
+>
+    <details x-on:click="isOpen = !isOpen"
+             x-on:click.outside="isOpen = false; $el.removeAttribute('open');">
         <summary class="list-none pl-2">
             {{
                 $this->selectedVideoGame ?

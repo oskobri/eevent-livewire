@@ -2,6 +2,7 @@
 
 use App\Enums\Tier;
 use App\Models\Country;
+use App\Models\Event;
 use App\Models\VideoGame;
 use Illuminate\Validation\Rule;
 use function Livewire\Volt\{state, computed, rules, mount};
@@ -27,29 +28,33 @@ mount(function () {
     }
 });
 
-state('videoGame')/*->url(as: 'video_game', history: true, keep: true)*/;
-state('opponentCountry')/*->url(as: 'opponent_country', history: true, keep: true)*/;
-state(['withPlayersCountry' => false])/*->url(as: 'with_players_country', history: true, keep: true)*/;
-state('tier')/*->url(as: 'tier', history: true, keep: true)*/;
-state(['date' => now()->format('Y-m-d')])/*->url(as: 'date', history: true, keep: true)*/;
-state('opponent')/*->url(as: 'opponent', history: true, keep: true)*/;
+state('videoGame')/*->url(as: 'video_game', history: true, keep: true)*/
+;
+state('opponentCountry')/*->url(as: 'opponent_country', history: true, keep: true)*/
+;
+state(['withPlayersCountry' => false])/*->url(as: 'with_players_country', history: true, keep: true)*/
+;
+state('tier')/*->url(as: 'tier', history: true, keep: true)*/
+;
+state(['date' => now()->format('Y-m-d')])/*->url(as: 'date', history: true, keep: true)*/
+;
+state('opponent')/*->url(as: 'opponent', history: true, keep: true)*/
+;
 
-$videoGames = computed(fn() => VideoGame::all());
 $countries = computed(fn() => Country::all());
 
-$videoGamesWithMatches = computed(function () {
-    return VideoGame::getListWithMatches($this->videoGame, [
+$events = computed(function () {
+    return Event::getListWithMatches([
         'opponentCountry' => $this->opponentCountry,
         'withPlayersCountry' => $this->withPlayersCountry,
         'tier' => $this->tier,
         'date' => $this->date,
         'opponent' => $this->opponent,
+        'video_game_id' => $this->videoGame,
     ]);
 });
 
 $filterDate = fn($date) => $this->date = $date;
-
-$goToVideoGame = fn() => $this->redirectRoute('video-games.show', [$this->videoGame], true, true);
 ?>
 
 <div>
@@ -101,10 +106,8 @@ $goToVideoGame = fn() => $this->redirectRoute('video-games.show', [$this->videoG
         </div>
     </div>
     <div class="flex flex-col gap-14 mt-6">
-        @foreach($this->videoGamesWithMatches as $videoGame)
-            @if($videoGame->events->isNotEmpty())
-                <x-video-games.card :$videoGame/>
-            @endif
+        @foreach($this->events as $event)
+            <x-events.card :$event :$videoGame/>
         @endforeach
     </div>
 </div>
