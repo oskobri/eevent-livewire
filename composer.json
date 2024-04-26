@@ -6,6 +6,8 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "blade-ui-kit/blade-heroicons": "^2.3",
+        "blade-ui-kit/blade-icons": "^1.6",
         "filament/filament": "^3.2",
         "filament/spatie-laravel-translatable-plugin": "^3.2",
         "laravel/breeze": "^2.0",

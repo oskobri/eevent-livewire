@@ -30,7 +30,10 @@ class AppServiceProvider extends ServiceProvider
             'player' => Player::class
         ]);
 
-        View::share('videoGames', VideoGame::all());
+        View::share('videoGames', VideoGame::query()
+            ->orderBy('name')
+            ->get()
+        );
 
         Router::macro('isWith', function ($name, $parameters) {
             return url()->current() === route($name, $parameters);

@@ -33,14 +33,22 @@ $logout = function (Logout $logout) {
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <ul class="flex items-center">
-                        <li class="mr-3 text-white cursor-pointer">
-                            <details>
-                                @if($this->selectedVideoGame)
-                                    <summary class="list-none">{{ $videoGames->firstWhere('id', $this->selectedVideoGame)?->name }}</summary>
-                                @else
-                                    <summary>Tous les jeux vidéos</summary>
-                                @endif
-                                <ul class="absolute">
+                        <li class="flex mr-3 text-white cursor-pointer select-none" x-data="{isOpen: false}">
+                            <details  x-on:click="isOpen = !isOpen">
+                                <summary class="list-none pl-2">{{
+                                    $this->selectedVideoGame ?
+                                        $videoGames->firstWhere('id', $this->selectedVideoGame)?->name :
+                                        'Tous les jeux vidéos'
+                                    }}
+                                    <template x-if="isOpen">
+                                        <x-heroicon-o-chevron-up  class="w-6 h-6 inline"/>
+                                    </template>
+                                    <template x-if="!isOpen">
+                                        <x-heroicon-o-chevron-down class="w-6 h-6 inline"/>
+                                    </template>
+
+                                </summary>
+                                <ul class="absolute mt-5 z-10">
                                     @if($this->selectedVideoGame)
                                         <li class="bg-gray-800 p-1 hover:bg-gray-500">
                                             <x-nav-link
