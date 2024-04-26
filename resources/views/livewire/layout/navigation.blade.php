@@ -1,14 +1,5 @@
 <?php
-
 use App\Livewire\Actions\Logout;
-
-use function Livewire\Volt\{state, mount};
-
-state('selectedVideoGame');
-
-mount(function () {
-    $this->selectedVideoGame = request()->videoGame?->id;
-});
 
 $logout = function (Logout $logout) {
     $logout();
@@ -31,56 +22,10 @@ $logout = function (Logout $logout) {
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                <div class="flex space-x-8 sm:-my-px sm:ms-10">
                     <ul class="flex items-center">
-                        <li class="flex mr-3 text-white cursor-pointer select-none" x-data="{isOpen: false}">
-                            <details  x-on:click="isOpen = !isOpen">
-                                <summary class="list-none pl-2">{{
-                                    $this->selectedVideoGame ?
-                                        $videoGames->firstWhere('id', $this->selectedVideoGame)?->name :
-                                        'Tous les jeux vidéos'
-                                    }}
-                                    <template x-if="isOpen">
-                                        <x-heroicon-o-chevron-up  class="w-6 h-6 inline"/>
-                                    </template>
-                                    <template x-if="!isOpen">
-                                        <x-heroicon-o-chevron-down class="w-6 h-6 inline"/>
-                                    </template>
-
-                                </summary>
-                                <ul class="absolute mt-5 z-10">
-                                    @if($this->selectedVideoGame)
-                                        <li class="bg-gray-800 p-1 hover:bg-gray-500">
-                                            <x-nav-link
-                                                :href="route('home')"
-                                                :active="request()->routeIs('home')"
-                                                wire:navigate
-                                            >
-                                                Tous les jeux vidéos
-                                            </x-nav-link>
-                                        </li>
-                                    @endif
-                                    @foreach($videoGames as $videoGame)
-                                        <li class="bg-gray-800 p-1 hover:bg-gray-500">
-                                            <x-nav-link
-                                                :href="route('video-games.show', ['videoGame' => $videoGame->id])"
-                                                :active="request()->fullUrlIs(route('video-games.show', ['videoGame' => $videoGame->id]))"
-                                                wire:navigate
-                                            >
-                                                {{ $videoGame->name }}
-                                            </x-nav-link>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            </details>
-                        </li>
-                        <li>
-                            {{--<x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
-                                {{ __('Dashboard') }}
-                            </x-nav-link>--}}
-                        </li>
+                        <livewire:layout.partials.select-video-games />
                     </ul>
-
                 </div>
             </div>
 
