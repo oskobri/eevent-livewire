@@ -44,7 +44,7 @@ class EventResource extends Resource
                                 Forms\Components\DatePicker::make('start_at'),
                                 Forms\Components\DatePicker::make('end_at'),
                                 Forms\Components\Select::make('tier')
-                                    ->options(Tier::array()),
+                                    ->options(Tier::collection()),
                                 Forms\Components\Toggle::make('is_online')
                                     ->required(),
                             ]),
@@ -54,7 +54,7 @@ class EventResource extends Resource
                                 Forms\Components\DatePicker::make('provider_event_start_at')->disabled(),
                                 Forms\Components\DatePicker::make('provider_event_end_at')->disabled(),
                                 Forms\Components\Select::make('provider_event_tier')
-                                    ->options(Tier::array())
+                                    ->options(Tier::collection())
                                     ->disabled(),
                                 Forms\Components\Toggle::make('provider_event_is_online')->disabled(),
                                 Forms\Components\TextInput::make('provider_event_id')->disabled(),
@@ -94,7 +94,7 @@ class EventResource extends Resource
                 Tables\Filters\SelectFilter::make('provider')
                     ->relationship('provider', 'name'),
                 Tables\Filters\SelectFilter::make('tier')
-                    ->options(Tier::array()),
+                    ->options(Tier::collection()),
                 Tables\Filters\Filter::make('priority')
                     ->toggle()
                     ->query(fn(Builder $query) => $query->priority())

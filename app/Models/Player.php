@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -36,5 +37,10 @@ class Player extends Model
     public function rightOpponent(): MorphOne
     {
         return $this->morphOne(MatchModel::class, 'right_opponent');
+    }
+
+    public function scopeWhereName(Builder $query, $name): Builder
+    {
+        return $query->where('nickname', 'like', "%$name%");
     }
 }

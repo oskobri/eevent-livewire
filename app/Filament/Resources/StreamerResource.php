@@ -24,7 +24,7 @@ class StreamerResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Select::make('source')
-                    ->options(StreamSource::array())
+                    ->options(StreamSource::collection())
                     ->required(),
                 Forms\Components\TextInput::make('source_id')
                     ->required()

@@ -30,31 +30,28 @@ class VideoGame extends Model
         return $this->hasMany(MatchModel::class);
     }
 
-    public static function getList(array $filter): Collection
+    public static function getListWithMatches($videoGameId = null, array $filter = []): Collection
     {
         return static::query()
             ->with([
                 'events' => fn($query) => $query
-                    ->whereHas('matches', fn($query) => $query
-                        ->today()
+                    ->withWhereHas('matches', fn($query) => $query
+                        ->whereDate('time', $filter['date'])
                         ->when($filter['opponentCountry'], fn($query, $countryId) => $query
                             ->fromCountry($filter['opponentCountry'], $filter['withPlayersCountry'])
                         )
+                        ->when($filter['opponent'], fn($query) => $query
+                            ->where(fn($query) => $query
+                                ->whereHas('leftOpponent', fn($query) => $query->whereName($filter['opponent']))
+                                ->orWhereHas('rightOpponent', fn($query) => $query->whereName($filter['opponent']))
+                            )
+                        )
+                        ->orderBy('time')
                     )
-                    ->withCount(['matches' => fn($query) => $query
-                        ->today()
-                        ->when($filter['opponentCountry'], fn($query, $countryId) => $query
-                            ->fromCountry($filter['opponentCountry'], $filter['withPlayersCountry'])
-                        )
-                    ])
+                    ->when($filter['tier'], fn($query) => $query->where('tier', $filter['tier']))
                 /*->where('is_published', true)*/,
                 'events.streamers.language',
-                'events.matches' => fn($query) => $query
-                    ->today()
-                    ->when($filter['opponentCountry'], fn($query, $countryId) => $query
-                        ->fromCountry($filter['opponentCountry'], $filter['withPlayersCountry'])
-                    )
-                    ->orderBy('matches.time'),
+                'events.matches',
                 'events.matches.videoGame',
                 'events.matches.leftOpponent.country',
                 'events.matches.rightOpponent.country',
@@ -69,18 +66,7 @@ class VideoGame extends Model
                 'events.matches.event:id,name',
                 'events.matches.event.streamers',
             ])
-            ->withCount(['matches' => fn($query) => $query
-                ->today()
-                ->when($filter['opponentCountry'], fn($query, $countryId) => $query
-                    ->fromCountry($filter['opponentCountry'], $filter['withPlayersCountry'])
-                )
-            ])
-            ->whereHas('matches', fn($query) => $query
-                ->today()
-                ->when($filter['opponentCountry'], fn($query, $countryId) => $query
-                    ->fromCountry($filter['opponentCountry'], $filter['withPlayersCountry'])
-                )
-            )
+            ->when($videoGameId, fn($query) => $query->where('id', $videoGameId))
             ->get();
     }
 }
