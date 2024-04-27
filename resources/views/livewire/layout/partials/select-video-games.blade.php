@@ -9,12 +9,12 @@ mount(function () {
 
 ?>
 
-<li class="flex py-5 text-white cursor-pointer select-none hover:bg-gray-700"
+<li class="text-white cursor-pointer select-none hover:bg-gray-700"
     x-data="{isOpen: false}"
 >
     <details x-on:click="isOpen = !isOpen"
              x-on:click.outside="isOpen = false; $el.removeAttribute('open');">
-        <summary class="list-none pl-2">
+        <summary class="list-none pl-2 flex py-5">
             {{
                 $this->selectedVideoGame ?
                     $videoGames->firstWhere('id', $this->selectedVideoGame)?->name :
@@ -27,7 +27,7 @@ mount(function () {
                 <x-heroicon-o-chevron-down class="w-6 h-6 inline"/>
             </template>
         </summary>
-        <ul class="absolute mt-5 z-10">
+        <ul class="absolute z-10">
             @if($this->selectedVideoGame)
                 <li class="bg-gray-800 hover:bg-gray-500 p-1">
                     <x-nav-link
