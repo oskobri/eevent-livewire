@@ -1,14 +1,19 @@
-<div x-data="{collapsed: true}" class="bg-gray-800 shadow-xl rounded-md text-white p-2 flex flex-col items-center ">
-    <div class="flex justify-center gap-4">
-        <x-matches.opponent :opponent="$match->leftOpponent"/>
-        <div>{{ $match->time ? $match->time->format('H:i') : 'vs' }}</div>
-        <x-matches.opponent :opponent="$match->rightOpponent"/>
+<div x-data="{collapsed: true}" class="border-b first:border-t border-gray-700 py-4">
+    <div
+        class="flex justify-between text-white p-2">
+        <div></div>
+        <div class="flex justify-center items-center gap-8">
+            <x-matches.opponent :opponent="$match->leftOpponent"/>
+            <div class="flex items-center time">{{ $match->time ? $match->time->format('H:i') : 'vs' }}</div>
+            <x-matches.opponent :opponent="$match->rightOpponent"/>
+        </div>
+        <button type="button" x-on:click="collapsed = !collapsed"
+                class="rounded-lg bg-gray-800 py-1 px-4 hover:bg-gray-600">
+            Regarder
+        </button>
     </div>
-    <button type="button" x-on:click="collapsed = !collapsed"
-            class="rounded-lg bg-purple-900 mt-2 py-1 px-4 hover:bg-purple-600">
-        Voir le match
-    </button>
-    <div x-cloak x-show="!collapsed" x-transition>
+    <div x-cloak x-show="!collapsed" x-transition
+        class="flex justify-center text-white">
         @if($streamers->isNotEmpty())
             <div>
                 Streams officiels
@@ -27,5 +32,4 @@
             </div>
         @endif
     </div>
-
 </div>

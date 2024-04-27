@@ -16,9 +16,9 @@ return new class extends Migration
     {
         Schema::create('players', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(VideoGame::class)->nullable();
-            $table->foreignIdFor(Country::class)->nullable();
-            $table->foreignIdFor(Team::class)->nullable();
+            $table->unsignedInteger('video_game_id')->nullable();
+            $table->unsignedInteger('country_id')->nullable();
+            $table->unsignedBigInteger('team_id')->nullable();
             $table->string('nickname');
             $table->string('provider_url')->nullable();
             $table->timestamps();

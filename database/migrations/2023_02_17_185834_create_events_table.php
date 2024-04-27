@@ -11,8 +11,8 @@ return new class extends Migration {
     {
         Schema::create('events', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(VideoGame::class)->index()->nullable();
-            $table->foreignIdFor(Provider::class)->index()->nullable();
+            $table->unsignedInteger('video_game_id')->index()->nullable();
+            $table->unsignedInteger('provider_id')->index()->nullable();
             $table->unsignedInteger('provider_event_id')->nullable();
             $table->string('slug')->nullable();
             $table->string('name');

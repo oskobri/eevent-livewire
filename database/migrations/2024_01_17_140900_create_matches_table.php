@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('matches', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Event::class);
-            $table->foreignIdFor(VideoGame::class);
+            $table->unsignedBigInteger('event_id');
+            $table->unsignedInteger('video_game_id');
             $table->morphs('left_opponent');
             $table->morphs('right_opponent');
             $table->string('score')->nullable();

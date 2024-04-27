@@ -3,9 +3,9 @@
         @if($opponent->country)
             <span class="fi fi-{{ $opponent->country->code }} mr-2"></span>
         @endif
-        {{ $opponent->name ?? $opponent->nickname }}
+        <span class="uppercase text-xl">{{ $opponent->name ?? $opponent->nickname }}</span>
     </div>
-    <div class="text-xs">
+    <div class="text-xs hidden">
         @if($opponent->players)
             Joueurs
             <div class="flex flex-col">

@@ -10,8 +10,8 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('streams', function (Blueprint $table) {
-            $table->foreignIdFor(Streamer::class)->index();
-            $table->foreignIdFor(Event::class)->index();
+            $table->unsignedBigInteger('streamer_id')->index();
+            $table->unsignedBigInteger('event_id')->index();
         });
     }
 

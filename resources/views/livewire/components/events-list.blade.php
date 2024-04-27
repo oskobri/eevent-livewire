@@ -91,10 +91,10 @@ $filterDate = fn($date) => $this->date = $date;
                 @endphp
                 <button type="button"
                         wire:click="filterDate('{{ $dateFormatted }}')"
-                    @class([
-                        'rounded p-1 bg-gray-300',
-                        'bg-gray-500 text-white' => $this->date === $dateFormatted
-                    ])>
+                        @class([
+                            'rounded p-1 bg-gray-300',
+                            'bg-gray-500 text-white' => $this->date === $dateFormatted
+                        ])>
                     <div>{{ $dateLabel }}</div>
                     <div>{{ $dateDayOfMonth }}</div>
                 </button>

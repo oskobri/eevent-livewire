@@ -10,8 +10,8 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('provider_video_game', function (Blueprint $table) {
-            $table->foreignIdFor(Provider::class)->index();
-            $table->foreignIdFor(VideoGame::class)->index();
+            $table->unsignedInteger('provider_id')->index();
+            $table->unsignedInteger('video_game_id')->index();
             $table->string('provider_video_game_id')->nullable();
 
             $table->unique([

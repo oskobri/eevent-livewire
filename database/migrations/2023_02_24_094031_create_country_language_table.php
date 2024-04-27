@@ -11,8 +11,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('country_language', function (Blueprint $table) {
-            $table->foreignIdFor(Country::class)->index();
-            $table->foreignIdFor(Language::class)->index();
+            $table->unsignedInteger('country_id')->index();
+            $table->unsignedInteger('language_id')->index();
             $table->boolean('main');
         });
     }
