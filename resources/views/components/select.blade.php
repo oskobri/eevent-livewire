@@ -26,14 +26,14 @@
                           @click="toggleListboxVisibility()"
                           :aria-expanded="open"
                           aria-haspopup="listbox"
-                          class="relative z-0 w-full py-2 pl-3 pr-10 text-left transition duration-150 ease-in-out cursor-default focus:outline-none  sm:text-sm sm:leading-5"
+                          class="relative cursor-pointer z-0 w-full py-2 pr-10 text-left transition duration-150 ease-in-out focus:outline-none  sm:text-sm sm:leading-5"
                       >
                             <span
                                 x-cloak
                                 x-show="! open"
                                 x-text="value in options ? options[value] : placeholder"
                                 :class="{ 'text-gray-500': ! (value in options) }"
-                                class="block truncate text-gray-300 w-full h-full "
+                                class="block truncate text-white w-full h-full "
                             ></span>
 
                             <input
@@ -85,8 +85,8 @@
                         @mouseleave="focusedOptionIndex = null"
                         role="option"
                         :aria-selected="focusedOptionIndex === index"
-                        :class="{ 'text-white bg-indigo-600': index === focusedOptionIndex, 'text-gray-900': index !== focusedOptionIndex }"
-                        class="relative py-2 pl-3 text-gray-900 cursor-default select-none pr-9"
+                        :class="{ 'text-white bg-gray-900': index === focusedOptionIndex, 'text-gray-300': index !== focusedOptionIndex }"
+                        class="relative cursor-pointer py-2 pl-3 text-gray-900 select-none pr-9"
                     >
                                 <span x-text="Object.values(options)[index]"
                                       :class="{ 'font-semibold': index === focusedOptionIndex, 'font-normal': index !== focusedOptionIndex }"
@@ -96,8 +96,8 @@
                         <span
                             x-cloak
                             x-show="key === value"
-                            :class="{ 'text-white': index === focusedOptionIndex, 'text-indigo-600': index !== focusedOptionIndex }"
-                            class="absolute inset-y-0 right-0 flex items-center pr-4 text-indigo-600"
+                            :class="{ 'text-white': index === focusedOptionIndex, 'text-gray-300': index !== focusedOptionIndex }"
+                            class="absolute inset-y-0 right-0 flex items-center pr-4 text-gray-300"
                         >
                                     <svg class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
                                         <path fill-rule="evenodd"

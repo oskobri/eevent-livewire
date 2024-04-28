@@ -64,32 +64,9 @@ $filterDate = fn($date) => $this->date = $date;
             @endforeach
         </div>
         <div class="w-1/4 flex flex-col mb-2 items-start gap-4 order-1 md:order-2 text-gray-300 pl-4">
-            <div class="flex flex-col gap-4">
-                <div>
-                    <label for="filter-opponent-country">Filtrer selon le pays du club</label>
-                    <x-select
-                        if="filter-opponent-country"
-                        name="opponentCountry"
-                        :data="$this->countries->pluck('name', 'id')->toJson()"
-                        placeholder="Tous les pays"
-                    ></x-select>
-                    <input id="filter-with-players-country" type="checkbox"
-                           wire:model.live="withPlayersCountry" @disabled(!$this->opponentCountry)>
-                    <label for="filter-with-players-country" class="ml-1">Filtrer aussi sur les joueurs du club</label>
-                </div>
-                <div>
-                    <label>Tier</label>
-                    <div class="flex flex-col">
-                        @foreach(\App\Enums\Tier::collection() as $tierKey => $tierLabel)
-                            <label class="flex items-center gap-2" wire:key="{{ $tierKey }}">
-                                <input type="checkbox" value="{{ $tierKey }}" wire:model="tiers">
-                                <span>{{ $tierLabel }}</span>
-                            </label>
-                        @endforeach
-                    </div>
-                </div>
+            <div class="flex flex-col gap-6">
                 {{--Filter date--}}
-                <div class="flex flex-row gap-2">
+                <div class="flex flex-row gap-2 border-b border-gray-700">
                     @for($day = 0; $day < 4; $day++)
                         @php
                             $date = now()->addDays($day);
@@ -100,8 +77,8 @@ $filterDate = fn($date) => $this->date = $date;
                         <button type="button"
                                 wire:click="filterDate('{{ $dateFormatted }}')"
                             @class([
-                                'rounded p-1 bg-gray-300',
-                                'bg-gray-500 text-white' => $this->date === $dateFormatted
+                                'rounded-t p-1 bg-gray-800 text-sm hover:bg-gray-700',
+                                'bg-white text-black' => $this->date === $dateFormatted
                             ])>
                             <div>{{ $dateLabel }}</div>
                             <div>{{ $dateDayOfMonth }}</div>
@@ -109,8 +86,50 @@ $filterDate = fn($date) => $this->date = $date;
                     @endfor
                 </div>
                 <div>
-                    <label for="filter-opponent">Opponent</label>
-                    <input id="filter-opponent" type="text" wire:model.live.debounce.250ms="opponent">
+                    <label for="filter-opponent-country">Filtrer selon le pays du club</label>
+                    <x-select
+                        if="filter-opponent-country"
+                        name="opponentCountry"
+                        :data="$this->countries->pluck('name', 'id')->toJson()"
+                        placeholder="Tous les pays"
+                    ></x-select>
+                    <label for="filter-with-players-country" class="flex items-center mt-2 text-sm">
+                        <input id="filter-with-players-country" type="checkbox"
+                               wire:model.live="withPlayersCountry"
+                               @disabled(!$this->opponentCountry)
+                               @class([
+                                   "rounded-sm cursor-pointer dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-gray-600 shadow-sm focus:ring-gray-500 dark:focus:ring-gray-600 dark:focus:ring-offset-gray-800 mr-1",
+                                   "cursor-not-allowed" => !$this->opponentCountry
+                               ])
+                               @if(!$this->opponentCountry)
+                                   title="Un pays doit d'abord être sélectionné"
+                                @endif
+                        >
+                        Inclure les joueurs
+                    </label>
+                </div>
+                <div>
+                    <label>Tier</label>
+                    <div class="flex flex-col">
+                        @foreach(\App\Enums\Tier::collection() as $tierKey => $tierLabel)
+                            <label class="flex items-center gap-2" wire:key="{{ $tierKey }}">
+                                <input type="checkbox" value="{{ $tierKey }}"
+                                       wire:model.live="tiers"
+                                       class="rounded-sm cursor-pointer dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-gray-600 shadow-sm focus:ring-gray-500 dark:focus:ring-gray-600 dark:focus:ring-offset-gray-800">
+                                <span>{{ $tierLabel }}</span>
+                            </label>
+                        @endforeach
+                    </div>
+                </div>
+                <div>
+                    <label for="filter-opponent">Chercher une équipe</label>
+                    <div>
+                        <input id="filter-opponent"
+                               type="text"
+                               placeholder="Nom de l'équipe"
+                               wire:model.live.debounce.250ms="opponent"
+                               class="bg-gray-900 w-full border-0 border-b border-gray-700 focus:outline-none focus:outline-0 pl-0">
+                    </div>
                 </div>
             </div>
         </div>
