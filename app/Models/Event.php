@@ -79,7 +79,7 @@ class Event extends Model
                 )
                 ->orderBy('time')
             )
-            ->when($filter['tier'], fn($query) => $query->where('tier', $filter['tier']))
+            ->when($filter['tiers'], fn($query) => $query->whereIn('tier', $filter['tiers']))
             ->when($filter['video_game_id'], fn($query) => $query->where('video_game_id', $filter['video_game_id']))
             /*->where('is_published', true)*/
             ->with([
