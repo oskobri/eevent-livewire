@@ -8,7 +8,7 @@
             {{ $event->name }}
         </div>
     </div>
-    <div x-cloak x-show="!collapsed" x-transition class="flex flex-col">
+    <div x-cloak x-show="!collapsed" x-transition>
         @foreach($event->matches as $match)
             <x-matches.card :match="$match" :streamers="$event->streamers"/>
         @endforeach

@@ -77,30 +77,32 @@ class Event extends Model
                         ->orWhereHas('rightOpponent', fn($query) => $query->whereName($filter['opponent']))
                     )
                 )
-                ->orderBy('time')
+                ->with([
+                    'videoGame',
+                    'leftOpponent.country',
+                    'rightOpponent.country',
+                    'leftOpponent' => fn(MorphTo $query) => $query
+                        ->morphWith([
+                            Team::class => 'players.country'
+                        ]),
+                    'rightOpponent' => fn(MorphTo $query) => $query
+                        ->morphWith([
+                            Team::class => 'players.country'
+                        ]),
+                    'event:id,name',
+                    'event.streamers',
+                ])
+                ->orderBy('matches.time')
             )
             ->when($filter['tiers'], fn($query) => $query->whereIn('tier', $filter['tiers']))
             ->when($filter['video_game_id'], fn($query) => $query->where('video_game_id', $filter['video_game_id']))
             /*->where('is_published', true)*/
             ->with([
                 'streamers.language',
-                'videoGame',
-                'matches',
-                'matches.videoGame',
-                'matches.leftOpponent.country',
-                'matches.rightOpponent.country',
-                'matches.leftOpponent' => fn(MorphTo $query) => $query
-                    ->morphWith([
-                        Team::class => 'players.country'
-                    ]),
-                'matches.rightOpponent' => fn(MorphTo $query) => $query
-                    ->morphWith([
-                        Team::class => 'players.country'
-                    ]),
-                'matches.event:id,name',
-                'matches.event.streamers',
+                'videoGame'
             ])
             ->orderBy('video_game_id')
+            ->orderBy('tier')
             ->get();
     }
 }

@@ -1,9 +1,16 @@
+@props([
+    'flagBeforeName' => true,
+    'opponent'
+])
 <div>
     <div>
-        @if($opponent->country)
+        @if($flagBeforeName && $opponent->country)
             <span class="fi fi-{{ $opponent->country->code }} mr-2"></span>
         @endif
-        <span class="uppercase text-xl">{{ $opponent->name ?? $opponent->nickname }}</span>
+        <span class="uppercase text-md">{{ $opponent->name ?? $opponent->nickname }}</span>
+        @if(!$flagBeforeName && $opponent->country)
+            <span class="fi fi-{{ $opponent->country->code }} ml-2"></span>
+        @endif
     </div>
     <div class="text-xs hidden">
         @if($opponent->players)
